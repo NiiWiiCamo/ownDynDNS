@@ -1,0 +1,2 @@
+foreground { echo "(custom-traefik-dynamic-provider): Copying dynamic configs to volume /etc/traefik/dynamic for use by traefik..." }
+foreground { cp /data/dynamic/traefik-certs.yaml /etc/traefik/dynamic/ }

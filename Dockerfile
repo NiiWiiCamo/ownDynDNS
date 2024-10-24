@@ -1,12 +1,13 @@
 FROM serversideup/php:8.3-fpm-nginx-alpine
 USER root
-RUN mkdir -p /data/hooks /hooks
-COPY --chown=www-data:www-data data/hooks/ /data/hooks
-VOLUME [ "/hooks" ]
-RUN chmod 777 /hooks
-COPY --chown=root:root data/etc/ /etc
 RUN mkdir -p /var/www/html/public/src &&\
     install-php-extensions soap
+RUN mkdir -p /data/hooks /hooks /data/dynamic /etc/traefik/dynamic
+COPY --chown=www-data:www-data data/hooks/ /data/hooks
+COPY --chown=www-data:www-data data/dynamic/ /data/dynamic
+VOLUME [ "/hooks", "/etc/traefik/dynamic" ]
+RUN chmod 777 /hooks /etc/traefik/dynamic
+COPY --chown=root:root data/etc/ /etc
 USER www-data
 WORKDIR /var/www/html/public
 COPY --chown=www-data:www-data data/var/www/html/public/src/ /var/www/html/public/src

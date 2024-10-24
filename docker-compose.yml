@@ -18,6 +18,9 @@ services:
       # DDNS_FORCEDHOST: hostname  # optional, default empty
     # ports:
     #   - 8080:8080
+    volumes: # these handle providing files to the other containers
+      - hooks:/hooks # provides auth-hook.sh to certbot
+      - traefik-dynamic:/etc/traefik/dynamic # provides traefik-certs.yaml to traefik
 
   certbot:
     container_name: certbot
@@ -33,9 +36,9 @@ services:
       DDNS_SCRIPT: http://dyndns:8080/update.php
       DDNS_EMAIL: ${DDNS_EMAIL} # the email used for LetsEncrypt registration
     volumes:
-      - ./auth-hook.sh:/auth-hook.sh
+      - hooks:/hooks
       - letsencrypt:/etc/letsencrypt
-    command: "certonly --manual --preferred-challenges=dns --agree-tos --email ${DDNS_EMAIL} --non-interactive --manual-auth-hook /auth-hook.sh -d ${DDNS_HOST}.${DDNS_DOMAIN}"
+    command: "certonly --cert-name owndyndns-1-cert --manual --preferred-challenges=dns --agree-tos --email ${DDNS_EMAIL} --non-interactive --manual-auth-hook /auth-hook.sh -d ${DDNS_HOST}.${DDNS_DOMAIN}"
 
 volumes:
   letsencrypt:

@@ -1,0 +1,5 @@
+tls:
+  certificates:
+    - certFile: /etc/letsencrypt/live/owndyndns-1-cert/fullchain.pem
+      keyFile: /etc/letsencrypt/live/owndyndns-1-cert/privkey.pem
+      
