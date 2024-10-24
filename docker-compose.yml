@@ -1,3 +1,7 @@
+volumes:
+  letsencrypt:
+  traefik-dynamic:
+
 services:
   owndyndns:
     container_name: dyndns
@@ -39,6 +43,3 @@ services:
       - hooks:/hooks
       - letsencrypt:/etc/letsencrypt
     command: "certonly --cert-name owndyndns-1-cert --manual --preferred-challenges=dns --agree-tos --email ${DDNS_EMAIL} --non-interactive --manual-auth-hook /auth-hook.sh -d ${DDNS_HOST}.${DDNS_DOMAIN}"
-
-volumes:
-  letsencrypt:
